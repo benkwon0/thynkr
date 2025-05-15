@@ -1,29 +1,11 @@
 'use client';
-import { useEffect } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
-import { useRouter } from 'next/navigation';
 import { createClient } from '../../lib/supabase/client';
 import Link from 'next/link';
 
 export default function LoginPage() {
   const supabase = createClient();
-  const router = useRouter();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        // User is signed in, redirect to a protected page or dashboard
-        router.push('/'); // Adjust the redirect path as needed
-      } else {
-        // User is signed out
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase, router]);
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
