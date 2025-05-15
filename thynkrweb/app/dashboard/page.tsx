@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata = {
@@ -6,7 +5,7 @@ export const metadata = {
   description: 'Let us do the thinking for you.',
 };
 
-export default function Home() {
+export default function Dashboard() {
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
       {/* Google Fonts */}
@@ -60,33 +59,8 @@ export default function Home() {
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
-
-        {/* Styling for image*/}
         <div
-          style={{
-            width: '100%',
-            maxWidth: 900,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '15rem',
-          }}
         >
-          <div>
-            <h1
-              style={{
-                fontFamily: "'Montserrat', Arial, sans-serif",
-                fontSize: '7rem',
-                fontWeight: 700,
-                margin: 100,
-                color: '#23272f',
-                letterSpacing: '-2px',
-                lineHeight: 1.05,
-                textShadow: '0 2px 16px rgba(0,0,0,0.04)',
-              }}
-            >
-              Thynkr
-            </h1>
             <h2
               style={{
                 fontFamily: "'Inter', Arial, sans-serif",
@@ -96,24 +70,46 @@ export default function Home() {
                 color: '#495057',
                 letterSpacing: '0.5px',
                 lineHeight: 1.3,
-                maxWidth: 1000,
+                textWrap: 'nowrap',
+                paddingLeft: '15rem',
                 textShadow: '0 1px 8px rgba(0,0,0,0.03)',
               }}
             >
-              Your guide to college readiness, powered by AI. Let us do the thinking for you.
+              Let's start your journey to success with a short quiz.
             </h2>
+            
+            <nav
+            style={{
+                width: '10%',
+                height: '60px',
+                background: '#7da068',
+                color: '#495057',
+                display: 'flex',
+                justifyContent: 'center', // center horizontally
+                alignItems: 'center',     // center vertically
+                position: 'fixed',
+                borderRadius: '15px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                left: '55rem',
+                top: '25rem',
+            }}
+            >
+              <Link
+                href="/dashboard/quiz"
+                style={{
+                  color: '#fff',
+                  textDecoration: 'none',
+                  fontFamily: "'Inter', Arial, sans-serif",
+                  fontWeight: 500,
+                  width: '100%',
+                  textAlign: 'center',
+                }}
+              >
+                Start Quiz
+              </Link>
+            </nav>
           </div>
-          <Image
-            src="/harvard.png"
-            alt="Harvard"
-            width={600}
-            height={600}
-            style={{ borderRadius: '16px' }}
-
-          />
         </div>
       </div>
-    </div>
   );
 }
-
