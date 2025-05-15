@@ -1,12 +1,14 @@
-import Image from 'next/image';
+'use client';
+import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 
-export const metadata = {
-  title: 'Thynkr',
-  description: 'Let us do the thinking for you.',
-};
 
-export default function Home() {
+const supabaseUrl = 'https://cfcnesdwpxglkkxbrqtp.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmY25lc2R3cHhnbGtreGJycXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMjA5MDMsImV4cCI6MjA2Mjg5NjkwM30.naJtmJFHLLALfsvumOXbESPWcozR1LKUBMf5NnzaafY';
+
+export default function LogIn() {
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
       {/* Google Fonts */}
@@ -66,60 +68,11 @@ export default function Home() {
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
-
-        {/* Styling for image*/}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 900,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '15rem',
-          }}
-        >
-          <div>
-            <h1
-              style={{
-                fontFamily: "'Montserrat', Arial, sans-serif",
-                fontSize: '7rem',
-                fontWeight: 700,
-                margin: 100,
-                color: '#23272f',
-                letterSpacing: '-2px',
-                lineHeight: 1.05,
-                textShadow: '0 2px 16px rgba(0,0,0,0.04)',
-              }}
-            >
-              Thynkr
-            </h1>
-            <h2
-              style={{
-                fontFamily: "'Inter', Arial, sans-serif",
-                fontSize: '2.5rem',
-                fontWeight: 400,
-                margin: '1.2rem 0 0 2px',
-                color: '#495057',
-                letterSpacing: '0.5px',
-                lineHeight: 1.3,
-                maxWidth: 1000,
-                textShadow: '0 1px 8px rgba(0,0,0,0.03)',
-              }}
-            >
-              Your guide to college readiness, powered by AI. Let us do the thinking for you.
-            </h2>
-          </div>
-          <Image
-            src="/harvard.png"
-            alt="Harvard"
-            width={600}
-            height={600}
-            style={{ borderRadius: '16px' }}
-
-          />
-        </div>
+        {/* Your login form or Supabase Auth UI goes here */}
+        <div>Log In Page</div>
       </div>
     </div>
   );
 }
+
 
