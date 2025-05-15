@@ -1,17 +1,26 @@
-// app/layout.tsx
+import Head from 'next/head';
+import Image from 'next/image';
+
 export default function Home() {
   return (
-    <div style={{ fontFamily: "'Roboto Condensed', Arial, sans-serif" }}>
-      <head>
+
+
+
+    <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
+      <Head>
         <link
-          href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700&display=swap"
+          href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap"
           rel="stylesheet"
         />
-      </head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
       {/* Task Bar */}
       <nav
         style={{
-          width: '50%',
+          width: '70%',
           height: '60px',
           background: '#222',
           color: '#fff',
@@ -20,21 +29,20 @@ export default function Home() {
           padding: '0 2rem',
           position: 'fixed',
           top: 30,
-          left: 500,
+          left: 300,
           zIndex: 1000,
           borderRadius: '15px',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         }}
       >
-        <span style={{ fontWeight: 'bold', fontSize: '1.5rem', letterSpacing: '2px' }}>
+        <span style={{ fontWeight: 700, fontSize: '1.7rem', letterSpacing: '2px', fontFamily: "'Montserrat', Arial, sans-serif" }}>
           Thynkr
         </span>
-        {/* Add more nav items here if needed */}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem' }}>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>Home</a>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>About</a>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>Profile</a>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none' }}>Log In</a>
+          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>Home</a>
+          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>About</a>
+          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>Dashboard</a>
+          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>Log In</a>
         </div>
       </nav>
 
@@ -42,16 +50,64 @@ export default function Home() {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
           flexDirection: 'column',
-          paddingTop: '60px', // To prevent content from being hidden behind the nav
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          height: '100vh',
+          paddingTop: '300px', // space for nav
+          paddingLeft: '12vw',
+          background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
-        <h1 style={{ fontFamily: "'Roboto Condensed', Arial, sans-serif", fontSize: '15rem' }}>
-          Thynkr
-        </h1>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 900,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '40rem',
+          }}
+        >
+          <div>
+            <h1
+              style={{
+                fontFamily: "'Montserrat', Arial, sans-serif",
+                fontSize: '7rem',
+                fontWeight: 700,
+                margin: 0,
+                color: '#23272f',
+                letterSpacing: '-2px',
+                lineHeight: 1.05,
+                textShadow: '0 2px 16px rgba(0,0,0,0.04)',
+              }}
+            >
+              Thynkr
+            </h1>
+            <h2
+              style={{
+                fontFamily: "'Inter', Arial, sans-serif",
+                fontSize: '2.5rem',
+                fontWeight: 400,
+                margin: '1.2rem 0 0 2px',
+                color: '#495057',
+                letterSpacing: '0.5px',
+                lineHeight: 1.3,
+                maxWidth: 600,
+                textShadow: '0 1px 8px rgba(0,0,0,0.03)',
+              }}
+            >
+              Let us do the thinking for you.
+            </h2>
+          </div>
+          <Image
+            src="/harvard.png"
+            alt="Harvard"
+            width={600}
+            height={600}
+            style={{ borderRadius: '16px' }}
+          />
+        </div>
       </div>
     </div>
   );
