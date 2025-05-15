@@ -1,13 +1,29 @@
 'use client';
-import { createClient } from '@supabase/supabase-js';
+import { useEffect } from 'react';
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
+import { useRouter } from 'next/navigation';
+import { createClient } from '../../lib/supabase/client';
 import Link from 'next/link';
 
+export default function LoginPage() {
+  const supabase = createClient();
+  const router = useRouter();
 
-const supabaseUrl = 'https://cfcnesdwpxglkkxbrqtp.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmY25lc2R3cHhnbGtreGJycXRwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMjA5MDMsImV4cCI6MjA2Mjg5NjkwM30.naJtmJFHLLALfsvumOXbESPWcozR1LKUBMf5NnzaafY';
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        // User is signed in, redirect to a protected page or dashboard
+        router.push('/'); // Adjust the redirect path as needed
+      } else {
+        // User is signed out
+      }
+    });
 
-export default function LogIn() {
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase, router]);
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
@@ -68,8 +84,16 @@ export default function LogIn() {
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
-        {/* Your login form or Supabase Auth UI goes here */}
-        <div>Log In Page</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <div style={{ width: '320px' }}>
+            <Auth
+              supabaseClient={supabase}
+              appearance={{ theme: ThemeSupa }}
+              providers={['google']}
+              redirectTo={`${typeof window !== 'undefined' ? window.location.origin : ''}/auth/callback`}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
