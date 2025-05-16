@@ -37,12 +37,14 @@ export default function Dashboard() {
           Thynkr
         </span>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem' }}>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>Home</a>
+          <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
+          Home</Link>
           <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>About</a>
           <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Dashboard
           </Link>
-          <a href="#" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>Log In</a>
+          <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
+          Log In</Link>
         </div>
       </nav>
 
@@ -95,7 +97,7 @@ export default function Dashboard() {
             }}
             >
               <Link
-                href="/dashboard/quiz"
+                href="/dashboard/dashboardhome"
                 style={{
                   color: '#fff',
                   textDecoration: 'none',

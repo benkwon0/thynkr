@@ -61,8 +61,8 @@ export default function LoginPage() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100vh',
-          paddingTop: '300px', // space for nav
-          paddingLeft: '12vw',
+          paddingTop: '180px', // space for nav
+          paddingLeft: '40vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
