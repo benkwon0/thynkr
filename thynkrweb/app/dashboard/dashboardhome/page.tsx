@@ -51,6 +51,42 @@ export default function DashboardHome() {
                 </div>
             </nav>
 
+            {/* Study Planner */}
+            <div 
+            className="transition-transform duration-300 hover:scale-105"
+                style={{
+                    width: '500px',
+                    height: '300px',
+                    background: '#ffffff',
+                    color: '#fffff',
+                    position: 'fixed',
+                    top: 160,
+                    left: 70,
+                    zIndex: 1000,
+                    borderRadius: '15px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                    paddingTop: '20px',
+                    paddingLeft: '20px',
+                }}
+                >
+            <a
+                href="#"
+                style={{
+                    top: 250,
+                    left: 90,
+                    background: 'transparent',
+                    color: '#000000',
+                    fontFamily: "'Inter', Arial, sans-serif",
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                    fontSize: '1.2rem',
+                    paddingTop: '100px',
+                }}
+            >
+                Study Planner
+            </a>
+            </div>
+
             {/* Main Content */}
             <div
                 style={{
@@ -64,13 +100,13 @@ export default function DashboardHome() {
                     background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
                 }}
             >
-                {/* Calendar Container */}
-                <div
+                {/* Calendar */}
+                <div className="transition-transform duration-300 hover:scale-105"
                     style={{
-                        width: '600px', // set your desired width
-                        height: '430px', // set your desired height
+                        width: '500px', // set your desired width
+                        height: '440px', // set your desired height
                         marginTop: '40px',
-                        marginLeft: '900px',
+                        marginLeft: '1100px',
                         paddingLeft: '40px auto',
                         paddingTop: '10px',
                         background: '#fff',
@@ -83,12 +119,10 @@ export default function DashboardHome() {
                         plugins={[dayGridPlugin]}
                         initialView="dayGridMonth"
                         events={[
-                            { title: 'Event 1', start: '2023-10-01' },
-                            { title: 'Event 2', start: '2023-10-07' },
-                            { title: 'Event 3', start: '2023-10-15' },
+                            { title: 'Physics 1 Exam', start: '2025-5-16' },
                         ]}
                         eventColor="#7da068"
-                        height="400px"
+                        contentHeight={350}
                     />
                 </div>
             </div>
