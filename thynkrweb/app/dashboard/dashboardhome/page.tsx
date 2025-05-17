@@ -112,17 +112,17 @@ export default function DashboardHome() {
                         background: '#fff',
                         borderRadius: '15px',
                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                        padding: '24px',
+                        padding: '50px',
                     }}
                 >
                     <FullCalendar
                         plugins={[dayGridPlugin]}
                         initialView="dayGridMonth"
                         events={[
-                            { title: 'Physics 1 Exam', start: '2025-5-16' },
+                            { title: 'Physics 1 Exam', start: '2025-5-20' },
                         ]}
                         eventColor="#7da068"
-                        contentHeight={350}
+                        height={"350px"}
                     />
                 </div>
             </div>
