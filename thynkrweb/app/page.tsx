@@ -56,6 +56,9 @@ export default function Home() {
           <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Dashboard
           </Link>
+          <Link href="/study-guides" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
+            Study Guides
+          </Link>
           <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Log In
           </Link>
@@ -104,7 +107,7 @@ export default function Home() {
               textShadow: '0 1px 8px rgba(0,0,0,0.03)',
             }}
           >
-            Your guide to college readiness, powered by AI. Let us do the thinking for you.
+            Your 1 on 1 study tool, powered by AI. Let us do the thinking for you.
           </h2>
         </div>
         {/* Right: Image */}
