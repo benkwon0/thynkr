@@ -79,7 +79,7 @@ export default function DashboardHome() {
                                 <button
                                     onClick={handleLogout}
                                     style={{
-                                        background: 'transparent',
+                                        background: '#E37573',
                                         border: '1px solid #fff',
                                         color: '#fff',
                                         fontFamily: "'Inter', Arial, sans-serif",
@@ -94,10 +94,10 @@ export default function DashboardHome() {
                                 </button>
                             ) : (
                                 <Image
-                                    src="/google-icon.png"
-                                    alt="Google Account"
-                                    width={32}
-                                    height={32}
+                                    src={user.user_metadata?.avatar_url || "/default-avatar.png"}
+                                    alt="Profile"
+                                    width={42}
+                                    height={42}
                                     style={{
                                         borderRadius: '50%',
                                         backgroundColor: '#fff',
@@ -118,13 +118,13 @@ export default function DashboardHome() {
 
             {/* Study Planner */}
             <Link href="/studyplanner" style={{ textDecoration: 'none' }}>
-            <div 
-            className="transition-transform duration-300 hover:scale-105"
+            <div
+                className="transition-transform duration-300 hover:scale-105"
                 style={{
                     width: '500px',
                     height: '300px',
                     background: '#ffffff',
-                    color: '#fffff',
+                    color: '#000',
                     position: 'fixed',
                     top: 160,
                     left: 70,
@@ -133,24 +133,19 @@ export default function DashboardHome() {
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                     paddingTop: '20px',
                     paddingLeft: '20px',
+                    cursor: 'pointer',
                 }}
                 >
-            <a
-                href="#"
+            <span
                 style={{
-                    top: 250,
-                    left: 90,
-                    background: 'transparent',
-                    color: '#000000',
-                    fontFamily: "'Inter', Arial, sans-serif",
-                    textDecoration: 'none',
                     fontWeight: 500,
                     fontSize: '1.2rem',
+                    fontFamily: "'Inter', Arial, sans-serif",
                     paddingTop: '100px',
                 }}
             >
                 Study Planner
-            </a>
+            </span>
             <div
                 style={{
                     marginTop: '10px',
@@ -174,7 +169,7 @@ export default function DashboardHome() {
                     width: '500px',
                     height: '300px',
                     background: '#ffffff',
-                    color: '#fffff',
+                    color: '#000',
                     position: 'fixed',
                     top: 160,
                     left: 600,
@@ -183,36 +178,31 @@ export default function DashboardHome() {
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                     paddingTop: '20px',
                     paddingLeft: '20px',
+                    cursor: 'pointer',
                 }}
             >
-                <a
-                    href="#"
-                    style={{
-                        top: 250,
-                        left: 90,
-                        background: 'transparent',
-                        color: '#000000',
-                        fontFamily: "'Inter', Arial, sans-serif",
-                        textDecoration: 'none',
-                        fontWeight: 500,
-                        fontSize: '1.2rem',
-                        paddingTop: '100px',
-                    }}
+                <span
+                  style={{
+                    fontWeight: 500,
+                    fontSize: '1.2rem',
+                    fontFamily: "'Inter', Arial, sans-serif",
+                    paddingTop: '100px',
+                  }}
                 >
-                    Study Guides
-                </a>
+                  Study Guides
+                </span>
                 <Image
-                    src="/apafrica.png"
-                    alt="AP Africa"
-                    width={160}
-                    height={160}
-                    style={{
-                        marginTop: '10px',
-                        borderRadius: '12px',
-                        background: '#f5f5f5',
-                    }}
-                    />
-            </div>
+                  src="/apafrica.png"
+                  alt="AP Africa"
+                  width={160}
+                  height={160}
+                  style={{
+                    marginTop: '10px',
+                    borderRadius: '12px',
+                    background: '#f5f5f5',
+                  }}
+                />
+              </div>
             </Link>
             
 

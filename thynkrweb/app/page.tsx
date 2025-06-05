@@ -87,7 +87,7 @@ export default function Home() {
                 <button
                   onClick={handleLogout}
                   style={{
-                    background: 'transparent',
+                    background: '#E37573',
                     border: '1px solid #fff',
                     color: '#fff',
                     fontFamily: "'Inter', Arial, sans-serif",
@@ -102,10 +102,10 @@ export default function Home() {
                 </button>
               ) : (
                 <Image
-                  src="/google-icon.png"
-                  alt="Google Account"
-                  width={32}
-                  height={32}
+                  src={user.user_metadata?.avatar_url || "/default-avatar.png"}
+                  alt="Profile"
+                  width={42}
+                  height={42}
                   style={{ 
                     borderRadius: '50%',
                     padding: '0px',
