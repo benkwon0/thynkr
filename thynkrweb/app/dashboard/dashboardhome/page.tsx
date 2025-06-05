@@ -163,47 +163,72 @@ export default function DashboardHome() {
 
             {/* Study Guide */}
             <Link href="/study-guides" style={{ textDecoration: 'none' }}>
-            <div
-                className="transition-transform duration-300 hover:scale-105"
-                style={{
-                    width: '500px',
-                    height: '300px',
-                    background: '#ffffff',
-                    color: '#000',
-                    position: 'fixed',
-                    top: 160,
-                    left: 600,
-                    zIndex: 1000,
-                    borderRadius: '15px',
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                    paddingTop: '20px',
-                    paddingLeft: '20px',
-                    cursor: 'pointer',
-                }}
-            >
-                <span
-                  style={{
-                    fontWeight: 500,
-                    fontSize: '1.2rem',
-                    fontFamily: "'Inter', Arial, sans-serif",
-                    paddingTop: '100px',
-                  }}
-                >
-                  Study Guides
-                </span>
-                <Image
-                  src="/apafrica.png"
-                  alt="AP Africa"
-                  width={160}
-                  height={160}
-                  style={{
-                    marginTop: '10px',
-                    borderRadius: '12px',
-                    background: '#f5f5f5',
-                  }}
-                />
-              </div>
-            </Link>
+  <div
+    className="transition-transform duration-300 hover:scale-105"
+    style={{
+      width: '500px',
+      height: '300px',
+      background: '#ffffff',
+      color: '#000',
+      position: 'fixed',
+      top: 160,
+      left: 600,
+      zIndex: 1000,
+      borderRadius: '15px',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      paddingTop: '20px',
+      paddingLeft: '20px',
+      cursor: 'pointer',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+    }}
+  >
+    <span
+      style={{
+        fontWeight: 500,
+        fontSize: '1.2rem',
+        fontFamily: "'Inter', Arial, sans-serif",
+        paddingTop: '100px',
+      }}
+    >
+      Study Guides
+    </span>
+    <div style={{ display: 'flex', gap: '16px', marginTop: '10px' }}>
+      <Image
+        src="/apafrica.png"
+        alt="AP Africa"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+      <Image
+        src="/apcompgov.png"
+        alt="AP Comp Gov"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+      <Image
+        src="/apeuro.png"
+        alt="AP Euro History"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+    </div>
+  </div>
+</Link>
+            
             
 
 
