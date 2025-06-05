@@ -3,10 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-export const metadata = {
-  title: 'Study Guides',
-  description: 'gitResources.',
-};
+
 
 export default function StudyGuidesPage() {
   // Add user state and hover state for profile logic

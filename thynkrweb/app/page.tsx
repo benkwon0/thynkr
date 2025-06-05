@@ -168,6 +168,25 @@ export default function Home() {
           >
             Your 1 on 1 study tool, powered by AI. Let us do the thinking for you.
           </h2>
+          <Link
+            href="/dashboard"
+            style={{
+              marginTop: '2.5rem',
+              padding: '1rem 2.5rem',
+              background: '#7da068',
+              color: '#fff',
+              fontFamily: "'Inter', Arial, sans-serif",
+              fontWeight: 600,
+              fontSize: '1.5rem',
+              borderRadius: '12px',
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+              transition: 'background 0.2s, transform 0.2s',
+              display: 'inline-block',
+            }}
+          >
+            Start Now
+          </Link>
         </div>
         {/* Right: Image */}
         <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
