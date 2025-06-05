@@ -1,31 +1,11 @@
-'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { createClient } from '../../lib/supabase/client';
-import Image from 'next/image';
+
+export const metadata = {
+  title: 'Study Guides',
+  description: 'gitResources.',
+};
 
 export default function StudyGuidesPage() {
-  const supabase = createClient();
-  const [user, setUser] = useState(null);
-  const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data?.user ?? null);
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-    return () => {
-      listener?.subscription.unsubscribe();
-    };
-  }, [supabase]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-  };
-
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
       {/* Google Fonts */}
@@ -56,7 +36,7 @@ export default function StudyGuidesPage() {
         <span style={{ fontWeight: 700, fontSize: '1.7rem', letterSpacing: '2px', fontFamily: "'Montserrat', Arial, sans-serif" }}>
           Thynkr
         </span>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem' }}>
           <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Home
           </Link>
@@ -66,52 +46,9 @@ export default function StudyGuidesPage() {
           <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Dashboard
           </Link>
-
-          {/* Conditionally render Google icon and Log Out or Log In */}
-          {user ? (
-            <div
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-              style={{ display: 'flex', alignItems: 'center', height: '100%' }}
-            >
-              {hovered ? (
-                <button
-                  onClick={handleLogout}
-                  style={{
-                    background: 'transparent',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    fontFamily: "'Inter', Arial, sans-serif",
-                    fontWeight: 500,
-                    fontSize: '1rem',
-                    borderRadius: '8px',
-                    padding: '4px 12px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Log Out
-                </button>
-              ) : (
-                <Image
-                  src="/google-icon.png"
-                  alt="Google Account"
-                  width={32}
-                  height={32}
-                  style={{ 
-                    borderRadius: '50%',
-                    padding: '0px',
-                    backgroundColor: '#fff',
-                    cursor: 'pointer',
-                    objectFit: 'cover'
-                  }}
-                />
-              )}
-            </div>
-          ) : (
-            <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
-              Log In
-            </Link>
-          )}
+          <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
+            Log In
+          </Link>
         </div>
       </nav>
 
@@ -155,11 +92,56 @@ export default function StudyGuidesPage() {
               padding: '0.5rem 1.5rem',
               borderRadius: '8px',
               marginTop: '1.5rem',
+              marginBottom: '0.75rem',
               display: 'inline-block',
               cursor: 'pointer'
             }}
           >
             AP African American Studies Study Guide
+          </a>
+          <a
+            href="https://docs.google.com/document/d/1U4GVOM-CaG71AF1rvrDIOTRDYaAUNo6alCDwGpQ3Sbk/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: '#7da068',
+              color: '#FFFFFF',
+              textDecoration: 'none',
+              fontSize: '1rem',
+              fontFamily: "'Inter', Arial, sans-serif",
+              fontWeight: 500,
+              padding: '0.5rem 1.5rem',
+              borderRadius: '8px',
+              marginTop: '1.5rem',
+              marginBottom: '0.75rem',
+              marginLeft: '20px',
+              display: 'inline-block',
+              cursor: 'pointer'
+            }}
+          >
+            AP Comparative Government and Politics Study Guide
+          </a>
+          <a
+            href="https://docs.google.com/document/d/1C4elsWWtOVNApcno5RKgPaMxdAUpfWD_NRfzcfNv6jY/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: '#7da068',
+              color: '#FFFFFF',
+              textDecoration: 'none',
+              fontSize: '1rem',
+              fontFamily: "'Inter', Arial, sans-serif",
+              fontWeight: 500,
+              padding: '0.5rem 1.5rem',
+              borderRadius: '8px',
+              marginTop: '1.5rem',
+              marginBottom: '0.75rem',
+              marginLeft: '20px',
+              display: 'inline-block',
+              cursor: 'pointer'
+            }}
+          >
+            AP European History Study Guide
           </a>
         </div>
 
@@ -169,4 +151,3 @@ export default function StudyGuidesPage() {
       </div>
   );
 }
-

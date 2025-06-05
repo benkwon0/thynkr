@@ -172,35 +172,54 @@ export default function DashboardHome() {
                     paddingLeft: '20px',
                 }}
             >
-                <a
-                    href="#"
-                    style={{
-                        top: 250,
-                        left: 90,
-                        background: 'transparent',
-                        color: '#000000',
-                        fontFamily: "'Inter', Arial, sans-serif",
-                        textDecoration: 'none',
-                        fontWeight: 500,
-                        fontSize: '1.2rem',
-                        paddingTop: '100px',
-                    }}
-                >
-                    Study Guides
-                </a>
-                <Image
-                    src="/apafrica.png"
-                    alt="AP Africa"
-                    width={160}
-                    height={160}
-                    style={{
-                        marginTop: '10px',
-                        borderRadius: '12px',
-                        background: '#f5f5f5',
-                    }}
-                    />
+                <span
+      style={{
+        background: 'transparent',
+        color: '#000000',
+        fontFamily: "'Inter', Arial, sans-serif",
+        textDecoration: 'none',
+        fontWeight: 500,
+        fontSize: '1.2rem',
+        paddingTop: '100px',
+      }}
+    >
+      Study Guides
+    </span>
+    <div style={{ display: 'flex', gap: '16px', marginTop: '10px' }}>
+      <Image
+        src="/apafrica.png"
+        alt="AP Africa"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+      <Image
+        src="/apcompgov.png"
+        alt="AP Comp Gov"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+      <Image
+        src="/apeuro.png"
+        alt="AP Euro History"
+        width={100}
+        height={100}
+        style={{
+          borderRadius: '12px',
+          background: '#f5f5f5',
+        }}
+      />
+    </div>
             </div>
             </Link>
+            
             
 
 
