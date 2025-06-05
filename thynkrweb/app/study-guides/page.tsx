@@ -141,6 +141,26 @@ export default function StudyGuidesPage() {
             }}>
             Study Guides
           </h1>
+          <a
+            href="https://docs.google.com/document/d/1Of_vOhNreL0vXwVVq0JOAXkGvnmE-ZolReKNHCPdW3g/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              background: '#7da068',
+              color: '#FFFFFF',
+              textDecoration: 'none',
+              fontSize: '1rem',
+              fontFamily: "'Inter', Arial, sans-serif",
+              fontWeight: 500,
+              padding: '0.5rem 1.5rem',
+              borderRadius: '8px',
+              marginTop: '1.5rem',
+              display: 'inline-block',
+              cursor: 'pointer'
+            }}
+          >
+            AP African American Studies Study Guide
+          </a>
         </div>
 
 
