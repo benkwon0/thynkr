@@ -1,12 +1,31 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-
-export const metadata = {
-  title: 'Thynkr',
-  description: 'Let us do the thinking for you.',
-};
+import { useEffect, useState } from 'react';
+import { createClient } from '../lib/supabase/client';
 
 export default function Home() {
+  const supabase = createClient();
+  const [user, setUser] = useState(null);
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user ?? null);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
+
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
       {/* Google Fonts */}
@@ -46,7 +65,7 @@ export default function Home() {
             Thynkr
           </span>
         </div>
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem' }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Home
           </Link>
@@ -56,12 +75,52 @@ export default function Home() {
           <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Dashboard
           </Link>
-          <Link href="/study-guides" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
-            Study Guides
-          </Link>
-          <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
-            Log In
-          </Link>
+
+          {/* Conditionally render Google icon and Log Out or Log In */}
+          {user ? (
+            <div
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              style={{ display: 'flex', alignItems: 'center', height: '100%' }}
+            >
+              {hovered ? (
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    background: 'transparent',
+                    border: '1px solid #fff',
+                    color: '#fff',
+                    fontFamily: "'Inter', Arial, sans-serif",
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    borderRadius: '8px',
+                    padding: '4px 12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Log Out
+                </button>
+              ) : (
+                <Image
+                  src="/google-icon.png"
+                  alt="Google Account"
+                  width={32}
+                  height={32}
+                  style={{ 
+                    borderRadius: '50%',
+                    padding: '0px',
+                    backgroundColor: '#fff',
+                    cursor: 'pointer',
+                    objectFit: 'cover',
+                  }}
+                />
+              )}
+            </div>
+          ) : (
+            <Link href="/logIn" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
+              Log In
+            </Link>
+          )}
         </div>
       </nav>
 
