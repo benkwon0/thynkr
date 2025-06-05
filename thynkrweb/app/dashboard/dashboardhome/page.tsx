@@ -117,6 +117,7 @@ export default function DashboardHome() {
             </nav>
 
             {/* Study Planner */}
+            <Link href="/studyplanner" style={{ textDecoration: 'none' }}>
             <div 
             className="transition-transform duration-300 hover:scale-105"
                 style={{
@@ -150,7 +151,19 @@ export default function DashboardHome() {
             >
                 Study Planner
             </a>
+            <div
+                style={{
+                    marginTop: '10px',
+                    color: '#444',
+                    fontFamily: "'Inter', Arial, sans-serif",
+                    fontSize: '1.8rem',
+                    fontWeight: 400,
+                }}
+             >
+                 Ask our buddy <b>Tink</b> to help you plan your study schedule!
+                </div>
             </div>
+            </Link>
 
 
             {/* Study Guide */}
