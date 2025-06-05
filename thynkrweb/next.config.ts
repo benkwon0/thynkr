@@ -1,4 +1,4 @@
-import type { NextConfig } from "@/node_module2/next";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
