@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "thynkr",
-  description: "An AI-Powered College Readiness Platform",
+  description: "An AI-powered fun study assistant for students",
   icons: {
     icon: '/logo.png',
   },
