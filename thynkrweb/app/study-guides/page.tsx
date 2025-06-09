@@ -6,16 +6,12 @@ import { useEffect, useState } from 'react';
 
 
 export default function StudyGuidesPage() {
-  // Add user state and hover state for profile logic
+
   const [user, setUser] = useState(null);
   const [hovered, setHovered] = useState(false);
 
-  // Import your Supabase client
-  // Adjust the import path as needed for your project structure
-  // Example: import { createClient } from '../../lib/supabase/client';
-  // If you use a shared Navbar, you can remove this logic and use the Navbar instead
+
   useEffect(() => {
-    // Only run if window is defined (client-side)
     if (typeof window !== 'undefined') {
       import('../../lib/supabase/client').then(({ createClient }) => {
         const supabase = createClient();
@@ -41,7 +37,7 @@ export default function StudyGuidesPage() {
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-      {/* Google Fonts */}
+
       <style>
         {`
           @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
@@ -79,7 +75,7 @@ export default function StudyGuidesPage() {
           <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
             Dashboard
           </Link>
-          {/* Conditionally render profile image and Log Out or Log In */}
+
           {user ? (
             <div
               onMouseEnter={() => setHovered(true)}
@@ -127,7 +123,6 @@ export default function StudyGuidesPage() {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div
         style={{
           display: 'flex',
@@ -135,7 +130,7 @@ export default function StudyGuidesPage() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100vh',
-          paddingTop: '100px', // space for nav
+          paddingTop: '100px',
           paddingLeft: '12vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}

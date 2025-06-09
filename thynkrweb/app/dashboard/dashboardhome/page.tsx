@@ -32,7 +32,6 @@ export default function DashboardHome() {
 
     return (
         <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-            {/* Google Fonts */}
             <style>
                 {`
                     @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
@@ -68,7 +67,7 @@ export default function DashboardHome() {
                     <Link href="/dashboard" style={{ color: '#fff', textDecoration: 'none', fontFamily: "'Inter', Arial, sans-serif", fontWeight: 500 }}>
                         Dashboard
                     </Link>
-                    {/* Google icon / Log Out / Log In */}
+
                     {user ? (
                         <div
                             onMouseEnter={() => setHovered(true)}
@@ -160,36 +159,61 @@ export default function DashboardHome() {
             </div>
             </Link>
 
+            <Link href="/1v1" style={{ textDecoration: 'none' }}>
+            <button
+                style={{
+                    margin: '60px 0 0 1100px',
+                    padding: '1rem 2.5rem',
+                    background: '#7da068',
+                    color: '#fff',
+                    fontFamily: "'Inter', Arial, sans-serif",
+                    fontWeight: 700,
+                    fontSize: '1.5rem',
+                    borderRadius: '12px',
+                    border: 'none',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s, transform 0.2s',
+                    zIndex: 1100,
+                    position: 'absolute',
+                    right: '150px',
+                    top: '700px'
+                }}
+                >
+                    Play Now
+                    </button>
+                </Link>
+
 
             {/* Study Guide */}
             <Link href="/study-guides" style={{ textDecoration: 'none' }}>
-  <div
-    className="transition-transform duration-300 hover:scale-105"
-    style={{
-      width: '500px',
-      height: '300px',
-      background: '#ffffff',
-      color: '#000',
-      position: 'fixed',
-      top: 160,
-      left: 600,
-      zIndex: 1000,
-      borderRadius: '15px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      paddingTop: '20px',
-      paddingLeft: '20px',
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    }}
+            <div
+                className="transition-transform duration-300 hover:scale-105"
+                style={{
+                    width: '500px',
+                    height: '300px',
+                    background: '#ffffff',
+                    color: '#000',
+                    position: 'fixed',
+                    top: 160,
+                    left: 600,
+                    zIndex: 1000,
+                    borderRadius: '15px',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                    paddingTop: '20px',
+                    paddingLeft: '20px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+        }}
   >
     <span
       style={{
         fontWeight: 500,
         fontSize: '1.2rem',
         fontFamily: "'Inter', Arial, sans-serif",
-        paddingTop: '100px',
+        paddingTop: '10px',
       }}
     >
       Study Guides
@@ -230,7 +254,7 @@ export default function DashboardHome() {
 </Link>
             
         
-{/* Main Content */}
+
 <div
     style={{
         display: 'flex',
@@ -246,8 +270,8 @@ export default function DashboardHome() {
 {/* Calendar */}
     <div className="transition-transform duration-300 hover:scale-105"
         style={{
-            width: '500px', // set your desired width
-            height: '440px', // set your desired height
+            width: '500px', 
+            height: '440px', 
             marginTop: '40px',
             marginLeft: '1100px',
             paddingLeft: '40px auto',

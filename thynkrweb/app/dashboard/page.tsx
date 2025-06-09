@@ -28,14 +28,14 @@ export default function Dashboard() {
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-      {/* Google Fonts */}
+
       <style>
         {`
           @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
           @import url('https://fonts.googleapis.com/css?family=Inter:400,600&display=swap');
         `}
       </style>
-      {/* Task Bar */}
+
       <nav
         style={{
           width: '70%',
@@ -67,7 +67,6 @@ export default function Dashboard() {
             Dashboard
           </Link>
 
-          {/* Conditionally render Google icon and Log Out or Log In */}
           {user ? (
             <div
               onMouseEnter={() => setHovered(true)}
@@ -115,7 +114,7 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      {/* Main Content */}
+
       <div
         style={{
           display: 'flex',
@@ -123,7 +122,7 @@ export default function Dashboard() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100vh',
-          paddingTop: '300px', // space for nav
+          paddingTop: '300px', 
           paddingLeft: '12vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
@@ -154,8 +153,8 @@ export default function Dashboard() {
                 background: '#7da068',
                 color: '#495057',
                 display: 'flex',
-                justifyContent: 'center', // center horizontally
-                alignItems: 'center',     // center vertically
+                justifyContent: 'center',
+                alignItems: 'center',
                 position: 'fixed',
                 borderRadius: '15px',
                 boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',

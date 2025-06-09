@@ -13,10 +13,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      setUser(data?.user ?? null); // <-- Only set user if data.user exists
+      setUser(data?.user ?? null);
     });
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null); // <-- Only set user if session.user exists
+      setUser(session?.user ?? null);
     });
     return () => {
       listener?.subscription.unsubscribe();
@@ -30,14 +30,14 @@ export default function LoginPage() {
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-      {/* Google Fonts */}
+
       <style>
         {`
           @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
           @import url('https://fonts.googleapis.com/css?family=Inter:400,600&display=swap');
         `}
       </style>
-      {/* Task Bar */}
+
       <nav
         style={{
           width: '70%',
@@ -69,7 +69,7 @@ export default function LoginPage() {
             Dashboard
           </Link>
 
-          {/* Conditionally render Google icon and Log Out or Log In */}
+
           {user ? (
             <div
               onMouseEnter={() => setHovered(true)}
@@ -117,7 +117,7 @@ export default function LoginPage() {
         </div>
       </nav>
 
-      {/* Main Content */}
+
       <div
         style={{
           display: 'flex',
@@ -125,7 +125,7 @@ export default function LoginPage() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100vh',
-          paddingTop: '180px', // space for nav
+          paddingTop: '180px',
           paddingLeft: '40vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}

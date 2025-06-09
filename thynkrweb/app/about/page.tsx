@@ -28,14 +28,13 @@ export default function About() {
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-      {/* Google Fonts */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
           @import url('https://fonts.googleapis.com/css?family=Inter:400,600&display=swap');
         `}
       </style>
-      {/* Task Bar */}
+
       <nav
         style={{
           width: '70%',
@@ -67,7 +66,7 @@ export default function About() {
             Dashboard
           </Link>
 
-          {/* Conditionally render Google icon and Log Out or Log In */}
+
           {user ? (
             <div
               onMouseEnter={() => setHovered(true)}
@@ -115,7 +114,6 @@ export default function About() {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div
         style={{
           display: 'flex',
@@ -123,7 +121,7 @@ export default function About() {
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           height: '100vh',
-          paddingTop: '100px', // space for nav
+          paddingTop: '100px',
           paddingLeft: '12vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
@@ -142,9 +140,6 @@ export default function About() {
             Features
           </h1>
         </div>
-
-
-
       </div>
       </div>
   );

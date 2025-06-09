@@ -28,7 +28,6 @@ export default function Home() {
 
   return (
     <div style={{ fontFamily: "'Montserrat', 'Inter', Arial, sans-serif" }}>
-      {/* Google Fonts */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap');
@@ -76,7 +75,7 @@ export default function Home() {
             Dashboard
           </Link>
 
-          {/* Conditionally render Google icon and Log Out or Log In */}
+
           {user ? (
             <div
               onMouseEnter={() => setHovered(true)}
@@ -124,20 +123,20 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Main Content */}
+
       <div
         style={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          height: 'calc(100vh - 100px)', // adjust for nav height
-          paddingTop: '100px', // space for nav
+          height: 'calc(100vh - 100px)',
+          paddingTop: '100px',
           paddingLeft: '15vw',
           background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
         }}
       >
-        {/* Left: Text Block */}
+
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1, minWidth: 0 }}>
           <h1
             style={{
@@ -187,16 +186,6 @@ export default function Home() {
           >
             Start Now
           </Link>
-        </div>
-        {/* Right: Image */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-          <Image
-            src="/harvard.png"
-            alt="Harvard"
-            width={600}
-            height={600}
-            style={{ borderRadius: '16px', maxWidth: '100%', height: 'auto' }}
-          />
         </div>
       </div>
     </div>
