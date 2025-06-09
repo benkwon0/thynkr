@@ -142,8 +142,8 @@ export default function Home() {
           <h1
             style={{
               fontFamily: "'Montserrat', Arial, sans-serif",
-              fontSize: '7rem',
-              fontWeight: 700,
+              fontSize: '8.5rem',
+              fontWeight: 530,
               margin: 0,
               color: '#23272f',
               letterSpacing: '-2px',
@@ -151,7 +151,7 @@ export default function Home() {
               textShadow: '0 2px 16px rgba(0,0,0,0.04)',
             }}
           >
-            Thynkr
+            thynkr
           </h1>
           <h2
             style={{

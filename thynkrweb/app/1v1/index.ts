@@ -6,7 +6,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // For development only. Restrict in production!
+    origin: "*", 
     methods: ["GET", "POST"]
   }
 });
@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
 
   socket.on('chat message', (msg) => {
     console.log('message: ' + msg);
-    io.emit('chat message', msg); // Broadcast to all clients (including sender)
+    io.emit('chat message', msg); 
   });
 });
 

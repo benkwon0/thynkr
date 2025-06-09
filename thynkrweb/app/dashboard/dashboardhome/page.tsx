@@ -229,37 +229,33 @@ export default function DashboardHome() {
   </div>
 </Link>
             
-            
-
-
-           
-
-            {/* Main Content */}
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    height: '100vh',
-                    paddingTop: '120px',
-                    paddingLeft: '12vw',
-                    background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
-                }}
+        
+{/* Main Content */}
+<div
+    style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        height: '100vh',
+        paddingTop: '120px',
+        paddingLeft: '12vw',
+        background: 'linear-gradient(120deg, #f8fafc 0%, #e9ecef 100%)',
+    }}
             >
-                {/* Calendar */}
-                <div className="transition-transform duration-300 hover:scale-105"
-                    style={{
-                        width: '500px', // set your desired width
-                        height: '440px', // set your desired height
-                        marginTop: '40px',
-                        marginLeft: '1100px',
-                        paddingLeft: '40px auto',
-                        paddingTop: '10px',
-                        background: '#fff',
-                        borderRadius: '15px',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                        padding: '50px',
+{/* Calendar */}
+    <div className="transition-transform duration-300 hover:scale-105"
+        style={{
+            width: '500px', // set your desired width
+            height: '440px', // set your desired height
+            marginTop: '40px',
+            marginLeft: '1100px',
+            paddingLeft: '40px auto',
+            paddingTop: '10px',
+            background: '#fff',
+            borderRadius: '15px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            padding: '50px',
                     }}
                 >
                     <FullCalendar
