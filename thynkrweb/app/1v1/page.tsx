@@ -9,12 +9,16 @@ export default function Page() {
   const [joined, setJoined] = useState(false);
   const socketRef = useRef<Socket | null>(null);
   const messagesEndRef = useRef<HTMLLIElement | null>(null);
+  const [question, setQuestion] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
 
   useEffect(() => {
     socketRef.current = io('http://localhost:3001');
     socketRef.current.on("chat message", (msg: string) => {
-      console.log("Received on client:", msg)
       setMessages(prev => [...prev, msg]);
+    });
+    socketRef.current.on("question", (q: string) => {
+      setCurrentQuestion(q);
     });
     return () => {
       socketRef.current?.disconnect();
@@ -34,10 +38,19 @@ export default function Page() {
     }
   };
 
+
+  const handleSendQuestion = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (question.trim() && room) {
+      socketRef.current?.emit("send question", { room, question });
+      setQuestion("");
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputValue.trim() && room) {
-      socketRef.current?.emit("chat message", inputValue);
+      socketRef.current?.emit("chat message", { room, message: inputValue });
       setInputValue("");
     }
   };
@@ -71,6 +84,11 @@ export default function Page() {
             />
             <button type="submit">Send</button>
           </form>
+          {currentQuestion && (
+            <div style={{ margin: 20, padding: 10, background: "#f0f0f0", borderRadius: 8 }}>
+              <strong>Question:</strong> {currentQuestion}
+            </div>
+          )}
         </>
       )}
     </div>

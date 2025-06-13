@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import express from "express";
 import { createServer } from "node:http";
+import { createClient } from '@supabase/supabase-js';
+
 
 const app = express();
 const server = createServer(app);
@@ -11,14 +13,14 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log('a user connected');
 
-  socket.on("join room", (room) => {
+  socket.on("join room", async (room) => {
     socket.join(room);
     console.log(`User joined room: ${room}`);
   });
 
-  socket.on("chat message", (message) => {
-    console.log("Received chat message:", message);
-    io.emit("chat message", message);
+  socket.on("chat message", ({ room, message }) => {
+    console.log("Received chat message:", room, message);
+    io.to(room).emit("chat message", message);
   });
 
   socket.on("disconnect", () => {

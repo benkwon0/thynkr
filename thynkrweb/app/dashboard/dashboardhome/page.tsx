@@ -7,6 +7,7 @@ import FullCalendar from '@fullcalendar/react';
 // @ts-ignore
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { createClient } from '../../../lib/supabase/client';
+import { Span } from 'next/dist/trace';
 
 export default function DashboardHome() {
     const supabase = createClient();
@@ -161,6 +162,7 @@ export default function DashboardHome() {
 
             <Link href="/1v1" style={{ textDecoration: 'none' }}>
             <button
+                className="transition-transform duration-300 hover:scale-105"
                 style={{
                     margin: '60px 0 0 1100px',
                     padding: '1rem 2.5rem',
@@ -191,7 +193,7 @@ export default function DashboardHome() {
                 className="transition-transform duration-300 hover:scale-105"
                 style={{
                     width: '500px',
-                    height: '300px',
+                    height: '150px',
                     background: '#ffffff',
                     color: '#000',
                     position: 'fixed',
@@ -252,9 +254,41 @@ export default function DashboardHome() {
     </div>
   </div>
 </Link>
-            
-        
 
+{/* Leaderboard */}
+<div className="transition-transform duration-300 hover:scale-105"
+    style={{
+        width: '500px',
+        height: '600px',
+        background: '#ffffff',
+        color: '#000',
+        position: 'fixed',
+        top: 350,
+        left: 600,
+        zIndex: 1000,
+        borderRadius: '15px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        paddingTop: '20px',
+        paddingLeft: '20px',
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    }}
+>
+    <span
+        style={{
+            fontWeight: 500,
+            fontSize: '2rem',
+            fontFamily: "'Inter', Arial, sans-serif",
+            paddingTop: '2px',
+        }}
+        > 
+        Leaderboard
+    </span>
+    </div>            
+        
+{/* Background */}
 <div
     style={{
         display: 'flex',
@@ -272,10 +306,10 @@ export default function DashboardHome() {
         style={{
             width: '500px', 
             height: '440px', 
-            marginTop: '40px',
-            marginLeft: '1100px',
+            marginTop: '390px',
+            marginLeft: '-160px',
             paddingLeft: '40px auto',
-            paddingTop: '10px',
+            paddingTop: '40px',
             background: '#fff',
             borderRadius: '15px',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
