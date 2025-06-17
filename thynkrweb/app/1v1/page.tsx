@@ -2,6 +2,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
+
+interface Question {
+ question: string;
+ options: string[];
+ questionNumber: number;
+ totalQuestions: number;
+}
+
+
+interface Scores {
+ [socketId: string]: number;
+}
+
+
 export default function Page() {
  const [messages, setMessages] = useState<string[]>([]);
  const [inputValue, setInputValue] = useState("");
@@ -9,11 +23,13 @@ export default function Page() {
  const [joined, setJoined] = useState(false);
  const socketRef = useRef<Socket | null>(null);
  const messagesEndRef = useRef<HTMLLIElement | null>(null);
- const [question, setQuestion] = useState("");
- const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
  const [availableRooms, setAvailableRooms] = useState<string[]>([]);
  const [newRoomName, setNewRoomName] = useState("");
  const [isConnected, setIsConnected] = useState(false);
+ const [gameActive, setGameActive] = useState(false);
+ const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+ const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+ const [finalScores, setFinalScores] = useState<Scores | null>(null);
 
 
  useEffect(() => {
@@ -24,22 +40,17 @@ export default function Page() {
    });
    socketRef.current = socket;
 
+
+   socket.onAny((event, ...args) => {
+     console.log('Socket event:', event, args);
+   });
+
+
    socket.on('connect', () => {
      console.log('Connected to server, socket ID:', socket.id);
      setIsConnected(true);
    });
 
-   socket.on('room deleted', (deletedRoom: string) => {
-    console.log('Room deleted event received:', deletedRoom);
-    if (room === deletedRoom) {
-      setJoined(false);
-      setRoom("");
-      setMessages([]);
-      setCurrentQuestion(null);
-      alert(`Room "${deletedRoom}" has been deleted.`);
-      socketRef.current?.emit('get rooms');
-    }
-  });
 
    socket.on('connect_error', (error) => {
      console.error('Connection error:', error);
@@ -59,22 +70,65 @@ export default function Page() {
    });
 
 
+   socket.on('room deleted', (deletedRoom: string) => {
+     console.log('Room deleted event received:', deletedRoom);
+     if (room === deletedRoom) {
+       setJoined(false);
+       setRoom("");
+       setMessages([]);
+       setGameActive(false);
+       setCurrentQuestion(null);
+       setFinalScores(null);
+       alert(`Room "${deletedRoom}" has been deleted.`);
+     }
+   });
+
+
    socket.on('chat message', (msg: string) => {
      console.log('Received message:', msg);
      setMessages(prev => [...prev, msg]);
    });
 
 
-   socket.on('question', (q: string) => {
-     console.log('Received question:', q);
-     setCurrentQuestion(q);
+   socket.on('game started', () => {
+     console.log('Game started event received');
+     setGameActive(true);
+     setFinalScores(null);
+     setCurrentQuestion(null);
    });
+
+
+   socket.on('question', (question: Question) => {
+     console.log('Received question event:', question);
+     setCurrentQuestion(question);
+     setSelectedAnswer(null);
+   });
+
+
+   socket.on('game ended', (scores: Scores) => {
+     console.log('Game ended, final scores:', scores);
+     setGameActive(false);
+     setFinalScores(scores);
+     setCurrentQuestion(null);
+   });
+
+
+   socket.on('joined room', (joinedRoom: string) => {
+     console.log('Server confirmed join:', joinedRoom);
+     setJoined(true);
+     setRoom(joinedRoom);
+     setMessages([]);
+     setGameActive(false);
+     setCurrentQuestion(null);
+     setFinalScores(null);
+   });
+
 
    return () => {
      console.log('Cleaning up socket connection');
      socket.disconnect();
    };
- }, [room]);
+ }, []);
 
 
  useEffect(() => {
@@ -94,24 +148,37 @@ export default function Page() {
    }
  };
 
- const handleDeleteRoom = (roomName: string) => {
-  if (isConnected && availableRooms.includes(roomName)) {
-    console.log('Deleting room:', roomName);
-    socketRef.current?.emit('delete room', roomName);
-    setJoined(false);
-  }
- };
-
 
  const handleJoin = (roomName: string) => {
    if (isConnected) {
      console.log('Joining room:', roomName);
      socketRef.current?.emit('join room', roomName);
-     setRoom(roomName);
-     setJoined(true);
-     setMessages([]);
+     console.log('Emitted join room event to server:', roomName);
+
    } else {
      console.log('Cannot join room: not connected');
+   }
+ };
+
+
+ const handleStartGame = () => {
+   if (isConnected && room) {
+     console.log('Starting game in room:', room);
+     setGameActive(true);
+     setFinalScores(null);
+     setCurrentQuestion(null);
+     socketRef.current?.emit('start game', room);
+   } else {
+     console.log('Cannot start game: not connected or no room');
+   }
+ };
+
+
+ const handleSubmitAnswer = (answer: string) => {
+   if (isConnected && room && gameActive) {
+     console.log('Submitting answer:', answer);
+     setSelectedAnswer(answer);
+     socketRef.current?.emit('submit answer', { roomName: room, answer });
    }
  };
 
@@ -121,6 +188,15 @@ export default function Page() {
    if (inputValue.trim() && room && isConnected) {
      socketRef.current?.emit('chat message', { room, message: inputValue });
      setInputValue("");
+   }
+ };
+
+
+ const handleDeleteRoom = (roomName: string) => {
+   if (isConnected && availableRooms.includes(roomName)) {
+     console.log('Deleting room:', roomName);
+     socketRef.current?.emit('delete room', roomName);
+     setJoined(false);
    }
  };
 
@@ -135,7 +211,7 @@ export default function Page() {
          marginBottom: 20,
          borderRadius: 4
        }}>
-         Not connected to server. Try again.
+         Not connected to server. Please refresh the page.
        </div>
      )}
     
@@ -161,6 +237,7 @@ export default function Page() {
              Create Room
            </button>
          </form>
+
 
          <h2>Available Rooms</h2>
          {availableRooms.length > 0 ? (
@@ -188,45 +265,117 @@ export default function Page() {
              ))}
            </ul>
          ) : (
-           <p>No rooms available. Create one yourself!</p>
+           <p>No rooms available. Create one above!</p>
          )}
        </div>
      ) : (
        <>
          <div style={{ marginBottom: 20 }}>
            <h3>Room: {room}</h3>
-           <button
-             onClick={() => handleDeleteRoom(room)}
-             style={{
-               padding: '8px 16px',
-               background: '#E37573',
-               color: 'white',
-               border: 'none',
-               borderRadius: 4,
-               cursor: 'pointer',
-               marginRight: 8
-             }}
-           >
-             Delete Room
-           </button>
-           <button
-             onClick={() => {
-               setJoined(false);
-               setRoom("");
-               setMessages([]);
-             }}
-             style={{
-               padding: '8px 16px',
-               background: '#aaa',
-               color: 'white',
-               border: 'none',
-               borderRadius: 4,
-               cursor: 'pointer'
-             }}
-           >
-             Leave Room
-           </button>
+           <div style={{ display: 'flex', gap: '10px' }}>
+             {!gameActive && !finalScores && (
+               <button
+                 onClick={handleStartGame}
+                 style={{
+                   padding: '8px 16px',
+                   background: '#4CAF50',
+                   color: 'white',
+                   border: 'none',
+                   borderRadius: 4,
+                   cursor: 'pointer'
+                 }}
+               >
+                 Start Game
+               </button>
+             )}
+             <button
+               onClick={() => handleDeleteRoom(room)}
+               style={{
+                 padding: '8px 16px',
+                 background: '#E37573',
+                 color: 'white',
+                 border: 'none',
+                 borderRadius: 4,
+                 cursor: 'pointer'
+               }}
+             >
+               Delete Room
+             </button>
+             <button
+               onClick={() => {
+                 setJoined(false);
+                 setRoom("");
+                 setMessages([]);
+                 setGameActive(false);
+                 setCurrentQuestion(null);
+                 setFinalScores(null);
+               }}
+               style={{
+                 padding: '8px 16px',
+                 background: '#aaa',
+                 color: 'white',
+                 border: 'none',
+                 borderRadius: 4,
+                 cursor: 'pointer'
+               }}
+             >
+               Leave Room
+             </button>
+           </div>
          </div>
+         {gameActive && currentQuestion && (
+           <div style={{
+             padding: 20,
+             background: '#f5f5f5',
+             borderRadius: 8,
+             marginBottom: 20
+           }}>
+             <h3>Question {currentQuestion.questionNumber} of {currentQuestion.totalQuestions}</h3>
+             <p style={{ fontSize: '1.2em', marginBottom: 20 }}>{currentQuestion.question}</p>
+             <div style={{ display: 'grid', gap: 10 }}>
+               {currentQuestion.options.map((option) => (
+                 <button
+                   key={option}
+                   onClick={() => handleSubmitAnswer(option)}
+                   disabled={selectedAnswer !== null}
+                   style={{
+                     padding: '12px 20px',
+                     background: selectedAnswer === option ? '#4CAF50' : '#fff',
+                     color: selectedAnswer === option ? 'white' : '#333',
+                     border: '1px solid #ddd',
+                     borderRadius: 4,
+                     cursor: selectedAnswer === null ? 'pointer' : 'default',
+                     textAlign: 'left',
+                     fontSize: '1em'
+                   }}
+                 >
+                   {option}
+                 </button>
+               ))}
+             </div>
+           </div>
+         )}
+         {finalScores && (
+           <div style={{
+             padding: 20,
+             background: '#e3f2fd',
+             borderRadius: 8,
+             marginBottom: 20
+           }}>
+             <h3>Game Over!</h3>
+             <h4>Final Scores:</h4>
+             <ul style={{ listStyle: 'none', padding: 0 }}>
+               {Object.entries(finalScores).map(([playerId, score]) => (
+                 <li key={playerId} style={{
+                   padding: '8px 0',
+                   borderBottom: '1px solid #90caf9'
+                 }}>
+                   Player {playerId}: {score} points
+                 </li>
+               ))}
+             </ul>
+           </div>
+         )}
          <ul id="messages" style={{
            listStyle: 'none',
            padding: 10,
@@ -263,13 +412,10 @@ export default function Page() {
              cursor: 'pointer'
            }}>Send</button>
          </form>
-         {currentQuestion && (
-           <div style={{ margin: 20, padding: 10, background: "#f0f0f0", borderRadius: 8 }}>
-             <strong>Question:</strong> {currentQuestion}
-           </div>
-         )}
        </>
      )}
    </div>
  );
 }
+
+
