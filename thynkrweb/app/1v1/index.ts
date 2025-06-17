@@ -36,7 +36,18 @@ io.on("connection", (socket) => {
 
    io.emit("room list", Array.from(rooms));
  });
-
+ 
+socket.on("delete room", (roomName: string) => {
+  console.log(`Attempting to delete room: ${roomName}`);
+  if (rooms.has(roomName)) {
+    io.to(roomName).emit("room deleted", roomName);
+    rooms.delete(roomName);
+  
+    io.emit("room list", Array.from(rooms));
+    
+    console.log(`Room ${roomName} deleted, remaining rooms:`, Array.from(rooms));
+  }
+});
 
  socket.on("join room", (roomName: string) => {
    console.log(`User ${socket.id} joining room: ${roomName}`);

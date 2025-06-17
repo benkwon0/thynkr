@@ -29,6 +29,17 @@ export default function Page() {
      setIsConnected(true);
    });
 
+   socket.on('room deleted', (deletedRoom: string) => {
+    console.log('Room deleted event received:', deletedRoom);
+    if (room === deletedRoom) {
+      setJoined(false);
+      setRoom("");
+      setMessages([]);
+      setCurrentQuestion(null);
+      alert(`Room "${deletedRoom}" has been deleted.`);
+      socketRef.current?.emit('get rooms');
+    }
+  });
 
    socket.on('connect_error', (error) => {
      console.error('Connection error:', error);
@@ -63,7 +74,7 @@ export default function Page() {
      console.log('Cleaning up socket connection');
      socket.disconnect();
    };
- }, []);
+ }, [room]);
 
 
  useEffect(() => {
@@ -81,6 +92,14 @@ export default function Page() {
    } else {
      console.log('Cannot create room: not connected or empty name');
    }
+ };
+
+ const handleDeleteRoom = (roomName: string) => {
+  if (isConnected && availableRooms.includes(roomName)) {
+    console.log('Deleting room:', roomName);
+    socketRef.current?.emit('delete room', roomName);
+    setJoined(false);
+  }
  };
 
 
@@ -143,7 +162,6 @@ export default function Page() {
            </button>
          </form>
 
-
          <h2>Available Rooms</h2>
          {availableRooms.length > 0 ? (
            <ul style={{ listStyle: 'none', padding: 0 }}>
@@ -178,6 +196,20 @@ export default function Page() {
          <div style={{ marginBottom: 20 }}>
            <h3>Room: {room}</h3>
            <button
+             onClick={() => handleDeleteRoom(room)}
+             style={{
+               padding: '8px 16px',
+               background: '#E37573',
+               color: 'white',
+               border: 'none',
+               borderRadius: 4,
+               cursor: 'pointer',
+               marginRight: 8
+             }}
+           >
+             Delete Room
+           </button>
+           <button
              onClick={() => {
                setJoined(false);
                setRoom("");
@@ -185,7 +217,7 @@ export default function Page() {
              }}
              style={{
                padding: '8px 16px',
-               background: '#E37573',
+               background: '#aaa',
                color: 'white',
                border: 'none',
                borderRadius: 4,
