@@ -15,6 +15,11 @@ interface Scores {
  [socketId: string]: number;
 }
 
+interface TugGameResult {
+  winner: string | null;
+  tugPosition: number;
+}
+
 
 export default function Page() {
  const [messages, setMessages] = useState<string[]>([]);
@@ -30,6 +35,8 @@ export default function Page() {
  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
  const [finalScores, setFinalScores] = useState<Scores | null>(null);
+ const [tugPosition, setTugPosition] = useState(0);
+ const [winner, setWinner] = useState<string | null>(null);
 
 
  useEffect(() => {
@@ -105,11 +112,17 @@ export default function Page() {
    });
 
 
-   socket.on('game ended', (scores: Scores) => {
-     console.log('Game ended, final scores:', scores);
+   socket.on('game ended', (result: TugGameResult) => {
+     console.log('Game ended, result:', result);
      setGameActive(false);
-     setFinalScores(scores);
+     setWinner(result.winner);
+     setTugPosition(result.tugPosition);
      setCurrentQuestion(null);
+   });
+
+
+   socket.on('tug position', (pos: number) => {
+     setTugPosition(pos);
    });
 
 
@@ -355,7 +368,49 @@ export default function Page() {
              </div>
            </div>
          )}
-         {finalScores && (
+         <div style={{ margin: '20px 0' }}>
+           <h3>Tug of War Position</h3>
+           <div style={{
+             display: 'flex',
+             alignItems: 'center',
+             justifyContent: 'center',
+             marginBottom: 10
+           }}>
+             <span style={{ marginRight: 10 }}>Player 2</span>
+             <div style={{
+               width: 200,
+               height: 30,
+               background: '#eee',
+               borderRadius: 15,
+               position: 'relative',
+               overflow: 'hidden',
+               margin: '0 10px'
+             }}>
+               <div style={{
+                 position: 'absolute',
+                 left: `${50 + tugPosition * 10}%`,
+                 top: 0,
+                 width: 10,
+                 height: 30,
+                 background: '#4CAF50',
+                 borderRadius: 5,
+                 transition: 'left 0.3s'
+               }} />
+               <div style={{
+                 position: 'absolute',
+                 left: '50%',
+                 top: 0,
+                 width: 2,
+                 height: 30,
+                 background: '#aaa',
+                 zIndex: 1
+               }} />
+             </div>
+             <span style={{ marginLeft: 10 }}>Player 1</span>
+           </div>
+           <div style={{ textAlign: 'center' }}>Position: {tugPosition}</div>
+         </div>
+         {winner && (
            <div style={{
              padding: 20,
              background: '#e3f2fd',
@@ -363,17 +418,8 @@ export default function Page() {
              marginBottom: 20
            }}>
              <h3>Game Over!</h3>
-             <h4>Final Scores:</h4>
-             <ul style={{ listStyle: 'none', padding: 0 }}>
-               {Object.entries(finalScores).map(([playerId, score]) => (
-                 <li key={playerId} style={{
-                   padding: '8px 0',
-                   borderBottom: '1px solid #90caf9'
-                 }}>
-                   Player {playerId}: {score} points
-                 </li>
-               ))}
-             </ul>
+             <h4>{winner ? `Winner: ${winner}` : 'No winner (out of questions)'}</h4>
+             <div>Final Tug Position: {tugPosition}</div>
            </div>
          )}
          <ul id="messages" style={{

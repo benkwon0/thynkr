@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
+import { removePagePathTail } from "../../node_module2/next/dist/shared/lib/page-path/remove-page-path-tail";
 
 
 const app = express();
@@ -21,9 +22,11 @@ const rooms = new Set<string>();
 interface GameState {
  isActive: boolean;
  currentQuestionIndex: number;
- scores: { [socketId: string]: number };
+ tugPosition: number; 
  answers: { [socketId: string]: string };
+ players: string[];
 }
+
 const gameStates: { [roomName: string] : GameState } = {};
 const questions = [
  {
@@ -35,6 +38,21 @@ const questions = [
    question: "Who is the best video game player in the world?",
    options: ["Benjamin Kwon", "Benji", "Ben", "BK"],
    correctAnswer: "Benjamin Kwon"
+ },
+ {
+  question: "Who is the best golfer in the world?",
+  options: ["Benjamin Kwon", "Benji", "Ben", "BK"],
+  correctAnswer: "Benjamin Kwon"
+ },
+ {
+  question: "What is the name of the infamous couple",
+  options: ["Jakura", "Jalivia", "Jaerin", "Evalyn"],
+  correctAnswer: "Jakura"
+ },
+ {
+  question: "What is the largest mammal?",
+  options: ["Elephant", "Blue Whale", "Giraffe", "Hippo"],
+  correctAnswer: "Blue Whale"
  }
 ];
 
@@ -52,7 +70,7 @@ io.on("connection", (socket) => {
 
  socket.on("create room", (roomName: string) => {
    rooms.add(roomName);
-   gameStates[roomName] = { isActive: false, currentQuestionIndex: 0, scores: {}, answers: {} };
+   gameStates[roomName] = { isActive: false, currentQuestionIndex: 0, tugPosition: 0, answers: {}, players: [] };
    io.emit("room list", Array.from(rooms));
  });
 
@@ -72,29 +90,30 @@ io.on("connection", (socket) => {
  socket.on("join room", (roomName: string) => {
    if (!rooms.has(roomName)) {
      rooms.add(roomName);
-     gameStates[roomName] = { isActive: false, currentQuestionIndex: 0, scores: {}, answers: {} };
+     gameStates[roomName] = { isActive: false, currentQuestionIndex: 0, tugPosition: 0, answers: {}, players: [] };
      io.emit("room list", Array.from(rooms));
    }
    socket.join(roomName);
    socket.emit("joined room", roomName);
-   if (gameStates[roomName]) {
-     gameStates[roomName].scores[socket.id] = 0;
+   const room = io.sockets.adapter.rooms.get(roomName);
+   if (gameStates[roomName] && room) {
+     gameStates[roomName].players = Array.from(room);
    }
  });
 
 
  socket.on("start game", (roomName: string) => {
    if (!gameStates[roomName]) {
-     gameStates[roomName] = { isActive: true, currentQuestionIndex: 0, scores: {}, answers: {} };
+     gameStates[roomName] = { isActive: true, currentQuestionIndex: 0, tugPosition: 0, answers: {}, players: [] };
    } else {
      gameStates[roomName].isActive = true;
      gameStates[roomName].currentQuestionIndex = 0;
-     gameStates[roomName].scores = {};
+     gameStates[roomName].tugPosition = 0;
      gameStates[roomName].answers = {};
    }
    const room = io.sockets.adapter.rooms.get(roomName);
    if (room) {
-     room.forEach(socketId => { gameStates[roomName].scores[socketId] = 0; });
+     gameStates[roomName].players = Array.from(room);
      io.to(roomName).emit("game started");
      const firstQuestion = {
        question: questions[0].question,
@@ -103,39 +122,51 @@ io.on("connection", (socket) => {
        totalQuestions: questions.length
      };
      io.to(roomName).emit("question", firstQuestion);
+     io.to(roomName).emit("tug position", gameStates[roomName].tugPosition);
    }
  });
 
 
- socket.on("submit answer", ({ roomName, answer }: { roomName: string; answer: string }) => {
-   if (gameStates[roomName] && gameStates[roomName].isActive) {
-     const currentQuestion = questions[gameStates[roomName].currentQuestionIndex];
-     gameStates[roomName].answers[socket.id] = answer;
-     if (answer === currentQuestion.correctAnswer) {
-       gameStates[roomName].scores[socket.id] = (gameStates[roomName].scores[socket.id] || 0) + 1;
-     }
-     const room = io.sockets.adapter.rooms.get(roomName);
-     if (room) {
-       const allAnswered = Array.from(room).every(socketId => gameStates[roomName].answers[socketId] !== undefined);
-       if (allAnswered) {
-         gameStates[roomName].currentQuestionIndex++;
-         if (gameStates[roomName].currentQuestionIndex < questions.length) {
-           io.to(roomName).emit("question", {
-             question: questions[gameStates[roomName].currentQuestionIndex].question,
-             options: questions[gameStates[roomName].currentQuestionIndex].options,
-             questionNumber: gameStates[roomName].currentQuestionIndex + 1,
-             totalQuestions: questions.length
-           });
-         } else {
-           io.to(roomName).emit("game ended", gameStates[roomName].scores);
-           gameStates[roomName].isActive = false;
-         }
-         gameStates[roomName].answers = {};
-       }
-     }
-   }
- });
+socket.on("submit answer", ({ roomName, answer }: { roomName: string; answer: string }) => {
+  const state = gameStates[roomName];
+  if (state && state.isActive) {
+    const currentQuestion = questions[state.currentQuestionIndex];
+    state.answers[socket.id] = answer;
+    const room = io.sockets.adapter.rooms.get(roomName);
 
+    if (room) {
+      const allAnswered = Array.from(room).every(socketId => state.answers[socketId] !== undefined);
+      if (allAnswered) {
+        let tugChange = 0;
+        for (const playerId of state.players) {
+          if (state.answers[playerId] === currentQuestion.correctAnswer) {
+            if (playerId === state.players[0]) tugChange += 1;
+            else if (playerId === state.players[1]) tugChange -= 1;
+          }
+        }
+        state.tugPosition += tugChange;
+        io.to(roomName).emit("tug position", state.tugPosition);
+        state.currentQuestionIndex++;
+        if (state.tugPosition >= 5 || state.tugPosition <= -5) {
+          const winner = state.tugPosition >= 5 ? state.players[0] : state.players[1];
+          io.to(roomName).emit("game ended", { winner, tugPosition: state.tugPosition });
+          state.isActive = false;
+        } else if (state.currentQuestionIndex < questions.length) {
+          io.to(roomName).emit("question", {
+            question: questions[state.currentQuestionIndex].question,
+            options: questions[state.currentQuestionIndex].options,
+            questionNumber: state.currentQuestionIndex + 1,
+            totalQuestions: questions.length
+          });
+        } else {
+          io.to(roomName).emit("game ended", { winner: null, tugPosition: state.tugPosition });
+          state.isActive = false;
+        }
+          state.answers = {};
+        }
+      }
+    }
+  });
 
  socket.on("chat message", ({ room, message }: { room: string; message: string }) => {
    io.to(room).emit("chat message", `${socket.id}: ${message}`);
